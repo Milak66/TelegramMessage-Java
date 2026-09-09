@@ -1,8 +1,17 @@
+FROM eclipse-temurin:26-jdk AS build
+
+WORKDIR /app
+
+COPY . .
+
+RUN chmod +x mvnw
+RUN ./mvnw clean package -DskipTests
+
 FROM eclipse-temurin:26-jre
 
 WORKDIR /app
 
-COPY target/server-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=build /app/target/server-0.0.1-SNAPSHOT.jar app.jar
 
 EXPOSE 8666
 
