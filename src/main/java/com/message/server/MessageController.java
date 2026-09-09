@@ -1,13 +1,11 @@
 package com.message.server;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@CrossOrigin(origins = "https://alexey-the-developer.vercel.app")
 public class MessageController {
 
     private final MessageService messageService;
@@ -17,13 +15,10 @@ public class MessageController {
     }
 
     @PostMapping("/sendMessage")
-    public ResponseEntity<String> sendMessage(
-            @RequestBody Message message
-    ) {
+    public ResponseEntity<String> sendMessage(@RequestBody Message message) {
 
         if (message.getMessage() == null ||
                 message.getMessage().trim().isEmpty()) {
-
             return ResponseEntity.badRequest()
                     .body("Message cannot be empty");
         }
@@ -35,8 +30,12 @@ public class MessageController {
 
         } catch (Exception e) {
 
+            System.err.println("=== TELEGRAM ERROR ===");
+            e.printStackTrace();
+            System.err.println("======================");
+
             return ResponseEntity.internalServerError()
-                    .body("Failed to send message");
+                    .body("Failed to send message: " + e.getMessage());
         }
     }
 }
