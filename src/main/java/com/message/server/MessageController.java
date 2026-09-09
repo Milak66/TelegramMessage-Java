@@ -1,7 +1,6 @@
 package com.message.server;
 
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,10 +30,8 @@ public class MessageController {
 
         } catch (Exception e) {
 
-            System.err.println("=== TELEGRAM ERROR ===");
+            System.err.println("Error occured");
             e.printStackTrace();
-            System.err.println("======================");
-
             return ResponseEntity.internalServerError()
                     .body("Failed to send message: " + e.getMessage());
         }
